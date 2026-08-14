@@ -96,7 +96,10 @@ jobs:
           name: changelog
           path: CHANGELOG.md
 
+  # Personal macOS GUI build branch: keep the upstream macOS jobs unchanged
+  # and skip unrelated platform/release jobs to reduce runner usage.
   windows:
+    if: ${{ false }}
     name: Build for Windows
     needs: meta
     strategy:
@@ -246,6 +249,7 @@ jobs:
           compression-level: 0
 
   ubuntu:
+    if: ${{ false }}
     name: Build for Ubuntu
     needs: meta
     runs-on: ubuntu-latest
@@ -371,6 +375,7 @@ jobs:
           compression-level: 0
 
   android:
+    if: ${{ false }}
     name: Build for Android
     needs: meta
     runs-on: macos-26
@@ -674,6 +679,7 @@ jobs:
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
 
   avalonia:
+    if: ${{ false }}
     name: Build MAAUnified (Avalonia) ${{ matrix.name }}
     needs: [meta, windows, ubuntu, macOS-Core]
     runs-on: ${{ matrix.os }}
@@ -807,8 +813,8 @@ jobs:
           path: release/*
 
   release:
+    if: ${{ false }}
     name: Publish Release
-    if: startsWith(github.ref, 'refs/tags/v')
     needs: [meta, windows, ubuntu, android, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
